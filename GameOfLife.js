@@ -21,7 +21,7 @@ class GameOfLife {
 	}
 	
 	getWidth() {
-		return this.width;
+		return this.board.getWidth();
 	}
 	
 	getHeight() {

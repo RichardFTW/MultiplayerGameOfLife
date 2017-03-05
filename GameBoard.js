@@ -1,3 +1,4 @@
+
 class GameBoard {
 	
 	//constructor(width, height) {
@@ -19,9 +20,9 @@ class GameBoard {
 	}
 	
 	create(x, y) {
-		var arr = new Array();
+		var arr = [];
 		for (var i=0;i < y;i++) {
-			arr[i] = new Array();
+			arr[i] = [];
 			for (var j = 0;j < x;j++) {
 				arr[i][j]=0;
 			}
@@ -67,4 +68,4 @@ console.log(tester.getPiece(1, 1));
 tester.clear();
 //console.log(tester.getPiece(1, 1));
 console.log("hi");
-
+console.log(tester.create(3, 5));

@@ -9,20 +9,30 @@ class Display {
        
         this.winWidth = window.innerWidth;
         this.winHeight = window.innerHeight;
+        
+        var plyr1 = {
+            number:1
+        }
+        var plyr2 = {
+            number:2  
+        }
+        var plyr3 = {
+            number:3
+        }
+        var plyer4 = {
+            number:4
+        }
 }
         
 
 
         construct()  {
-            console.log('you just got');
-            var a = this.winHeight / this.board.getHeight() + (this.winWidth / this.board.getWidth() * i) / 2;
+            var a = this.winHeight / this.board.getHeight();
             var b = this.winWidth / this.board.getWidth();
             for(var i = 0; i < this.board.getWidth(); i++){
                 for(var z = 0; z < this.board.getHeight();z++){
-                    console.log('pranked');
-                    var rect =two.makeRectangle(this.winWidth / this.board.getWidth() * i , this.winHeight / this.board.getHeight() * z, b, a);
-                    
-                        this.gameBoard.setPiece(i,z, rect);
+                    var rect =two.makeRectangle(this.winWidth / this.board.getWidth() * i + b / 2 , this.winHeight / this.board.getHeight() * z + a / 2, b, a);
+                    this.gameBoard.setPiece(i,z, rect);
                     }
                 }
             two.update();
@@ -33,7 +43,8 @@ class Display {
             for(var i = 0; i < this.board.getWidth(); i++){
                 for(var z = 0; z < this.board.getHeight();z++){
                     if(this.board.getCell(i, z) != 0){
-                        this.gameBoard.getPiece(i, z).fill = "#000000";
+                        
+                        this.gameBoard.getPiece(i, z).fill = "rgb(0, 0, 255)";
                     }
                 }
             }

@@ -15,7 +15,7 @@ function sendBlocks( player){
     
     // This passes 2 vars: player (player number ex 1) and data: {1,1, 4,9, 3,5}
     
-    io.socket.emit('clientEvent', {player: player, data: blockArray});
+    socket.emit('clientEvent', {player: player, data: blockArray});
 }
 
 function recieveMessage(){

@@ -20,7 +20,7 @@ function sendBlocks( player){
 
 function recieveMessage(){
     
-    socket.on('serverMsg', function(data){console.log(data))});
+    socket.on('serverMsg', function(data){console.log(data)});
     
 }
 

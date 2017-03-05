@@ -10,18 +10,11 @@ class Display {
         this.winWidth = window.innerWidth;
         this.winHeight = window.innerHeight;
         
-        var plyr1 = {
-            number:1
-        }
-        var plyr2 = {
-            number:2  
-        }
-        var plyr3 = {
-            number:3
-        }
-        var plyer4 = {
-            number:4
-        }
+        
+        this.delay = 0;
+        this.other = 0;
+        this.id= 1;
+        
 }
         
 
@@ -40,16 +33,66 @@ class Display {
     
 
         paint() {
+            console.log("paint");
             for(var i = 0; i < this.board.getWidth(); i++){
                 for(var z = 0; z < this.board.getHeight();z++){
                     if(this.board.getCell(i, z) != 0){
-                        
-                        this.gameBoard.getPiece(i, z).fill = "rgb(0, 0, 255)";
+                        if(this.board.getCell(i,z) == 1)
+                            this.gameBoard.getPiece(i,z).fill = "rgb(255,0,0)";
+                         if(this.board.getCell(i,z) == 2)
+                            this.gameBoard.getPiece(i,z).fill = "rgb(0,255,0)";
+                         if(this.board.getCell(i,z) == 3)
+                            this.gameBoard.getPiece(i,z).fill = "rgb(0,0,255)";
+                         if(this.board.getCell(i,z) == 4)
+                            this.gameBoard.getPiece(i,z).fill = "rgb(255,255,0)";
+                         if(this.board.getCell(i,z) == 5)
+                            this.gameBoard.getPiece(i,z).fill = "rgb(255,0,255)";
+//                         if(this.board.getCell(i,z) == false)
+//                            this.gameBoard.getPiece(i,z).fill = "rgb(0,0,0)";
+                    }else if(this.board.getCell(i,z) == 0){
+                        this.gameBoard.getPiece(i,z).fill = "rgb(255,255,255)";
                     }
+                    
                 }
             }
             two.update();
         }
+    
+    nextGen() {
+        this.board.nextGen();
+        this.paint();
+        two.update();
+        this.delay++;
+        if(this.delay == 10){
+            window.clearInterval(this.other);
+            console.log("something");
+            this.delay = 0;
+        }
+        console.log(this.delay);
+        console.log("ha");
+    }
+    
+    cycleGen() {
+        this.other = window.setInterval(function() {
+            //for(var i = 0; i < 10; i++){
+                display.nextGen()
+            //}
+            //clearInterval(this.other)
+        }, 100);
+        
+    }
+    
+    coordsConvert(x , y){
+         var a = this.winHeight / this.board.getHeight();
+         var b = this.winWidth / this.board.getWidth();
+         this.board.setCell(Math.floor(x / b), Math.floor(y/a), this.id);
+         this.paint();
+        console.log("xy: "+Math.floor(x / b)+" "+Math.floor(y/a));
+    }
+    
+    setId(x){
+        this.id = x;
+    }
          
     create(x, y) {
 		var arr = [];

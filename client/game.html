@@ -7,12 +7,18 @@
     <script src="./GameOfLife.js"></script>
     </head>
     
-    <body>
+    <body onmousedown = "getMouseCoords(event)">
         <div id="main"></div>
          
         <script language="JavaScript" type="text/javascript" src ="./display.js"></script>
         <script>
-            
+           function getMouseCoords(event) {
+                var x = event.clientX;
+                var y = event.clientY;
+                display.coordsConvert(x,y);
+               console.log("xy: "+x+" "+y);
+               
+            }
            var el = document.getElementById("main"),
         two = new Two({ 
         fullscreen: true
@@ -23,10 +29,12 @@
         let display = new Display();            
 
         display.construct();
-        display.paint();
-            
-            
-        two.play();
+        //display.paint();
+       // display.nextGen();
+       // display.board.randomize();
+        //display.cycleGen();
+            //display.paint();
+        
 
             
         </script>

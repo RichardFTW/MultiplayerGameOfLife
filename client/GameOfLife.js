@@ -17,6 +17,10 @@ class GameOfLife {
 	setCell(x, y) {
 		this.board.setPiece(x, y);
 	}
+    
+    setCell(x, y, val) {
+		this.board.setPiece(x, y, val);
+	}
 	
 	getWidth() {
 		return this.board.getWidth();
@@ -114,7 +118,7 @@ class GameOfLife {
 			for(var y = 0; y < this.board.getHeight(); y++) {
 				for(var x = 0; x < this.board.getWidth(); x++) {
 					//console.log(this.willLive(x, y, type));
-					if(this.willLive(x, y, type) == true) {next.setPiece(x, y, type);}
+					if(this.willLive(x, y, type)) {next.setPiece(x, y, type);}
 					else if(this.board.getPiece(x, y) == type) { next.setPiece(x, y, 0);}
 					//console.log("boop")
 				}
@@ -123,6 +127,14 @@ class GameOfLife {
 		//return next;
 		this.board = next;
 	}
+    
+    randomize() {
+        for(var x = 0; x < this.board.getWidth(); x++) {
+            for(var y = 0; y < this.board.getHeight(); y++) {
+                this.board.setPiece(x, y, Math.floor(Math.random() * 5));
+            }
+        }
+    }
 	
 }
 

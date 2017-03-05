@@ -62,7 +62,9 @@ class GameOfLife {
 		while(yVar < 2) {
 			xVar = -1;
 			while(xVar < 2) {
-				if(this.board.isValid(x + xVar, y + yVar) && this.board.getPiece(x + xVar, y + yVar) == type)
+				if(this.board.isValid(x + xVar, y + yVar) &&
+				(this.board.getPiece(x + xVar, y + yVar) == type ||
+				this.board.getPiece(x + xVar, y + yVar) == true))
 				//&& this.board.getPiece(x + xVar, y + yVar) == type)
 					count++;
 				xVar++;
@@ -81,9 +83,10 @@ class GameOfLife {
 		while(yVar < 2) {
 			xVar = -1;
 			while(xVar < 2) {
-				if(this.board.isValid(x + xVar, y + yVar) &&
-					this.board.getPiece(x + xVar, y + yVar) != 0
+				if(this.board.isValid(x + xVar, y + yVar) && (
+					(this.board.getPiece(x + xVar, y + yVar) != 0
 					&& this.board.getPiece(x + xVar, y + yVar) != type)
+					 || this.board.getPiece(x + xVar, y + yVar) == false))
 					count++;
 				xVar++;
 			}

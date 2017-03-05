@@ -15,7 +15,7 @@ class Display {
 
         construct()  {
             console.log('you just got');
-            var a = this.winHeight / this.board.getHeight();
+            var a = this.winHeight / this.board.getHeight() + (this.winWidth / this.board.getWidth() * i) / 2;
             var b = this.winWidth / this.board.getWidth();
             for(var i = 0; i < this.board.getWidth(); i++){
                 for(var z = 0; z < this.board.getHeight();z++){

@@ -1,46 +1,106 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>ConWars</title>
-    <script src="./two.js"></script>
-    <script src="./GameBoard.js"></script>
-    <script src="./GameOfLife.js"></script>
+    <head>
+        <title>ConWars</title>
+        <script src="/two.js"></script>
+        <script src="/GameBoard.js"></script>
+        <script src="/GameOfLife.js"></script>
     </head>
-    
+    <script src="../socket.io/socket.io.js"></script>
     <body onmousedown = "getMouseCoords(event)">
         <div id="main"></div>
-         
+        
         <script language="JavaScript" type="text/javascript" src ="./display.js"></script>
         <script>
-           function getMouseCoords(event) {
-                var x = event.clientX;
-                var y = event.clientY;
-                display.coordsConvert(x,y);
-               console.log("xy: "+x+" "+y);
-               
+
+
+        var isInGame = false;
+        var isTurn= false;
+
+        function getMouseCoords(event) {
+        var x = event.clientX;
+        var y = event.clientY;
+        if(isInGame && isTurn){
+                var indices = display.coordsConvert(x,y);
+                pushBlock(indices.x,indices.y);
             }
-           var el = document.getElementById("main"),
-        two = new Two({ 
+        }
+        var el = document.getElementById("main"),
+        two = new Two({
         fullscreen: true
         });
         
         two.appendTo(el);
-            
-        let display = new Display();            
-
+        
+        let display = new Display();
         display.construct();
-        //display.paint();
-       // display.nextGen();
-       // display.board.randomize();
-        //display.cycleGen();
-            //display.paint();
+        
+        
+        var socket = io();
+        var blockArray = [];
+
+        var blockCounter = 0;
+        var playerID;
+
+        socket.on('playerID', function(data){
+            console.log('PLAYER ID: ' + data.id);
+            playerID = data.id;
+            display.setID(playerID + 1);
+        });
+
+        function pushBlock(x, y){
+        blockArray[blockArray.length] = x;
+        //Length changed so it stays the same
+        blockArray[blockArray.length] = y;
+        console.log('pushing ' + x + ' , ' + y);
+        
+        blockCounter++;
+            if(blockCounter >= 6){
+                blockCounter = 0;
+                sendBlocks(playerID);
+            }
+        }
+
+        function sendBlocks( player){
+            // This passes 2 vars: player (player number ex 1) and data: {1,1, 4,9, 3,5}
+            socket.emit('playerSubmit', {player: player, data: blockArray});
+            blockArray = [];
+            isTurn = false;
+        }
+        
+        socket.on('serverMsg', function(data){console.log(data.msg)});
+        //socket.on('playerID', function(data){console.log('PLAYER ID: ' + data.id);});
+        socket.on('gameStart', function(data){
+            console.log('GAME STARTING');
+            isInGame = true;
+        });
+        socket.on('yourTurn',function(data){
+        console.log('Your Turn!');
+        isTurn = true;
+        //pushBlock(5,5);
+        //pushBlock(10,69);
+        //sendBlocks('blue');
+        });
         
 
-            
+        socket.on('playerTurn', function(data) {
+
+            for(var i = 0; i < data.data.length - 1; i+=2){
+                display.board.setCell(data.data[i], data.data[i+1], data.player+1);
+            }
+            display.paint();
+
+        });
+
+        socket.on('cycle',function(data) {
+
+            display.cycleGen();
+
+        });
+
         </script>
         
         
-
         
     </body>
     

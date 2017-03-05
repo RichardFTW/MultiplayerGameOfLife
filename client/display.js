@@ -63,7 +63,7 @@ class Display {
         this.paint();
         two.update();
         this.delay++;
-        if(this.delay == 10){
+        if(this.delay == 15){
             window.clearInterval(this.other);
             console.log("something");
             this.delay = 0;
@@ -78,7 +78,7 @@ class Display {
                 display.nextGen()
             //}
             //clearInterval(this.other)
-        }, 100);
+        }, 150);
         
     }
     
@@ -88,9 +88,10 @@ class Display {
          this.board.setCell(Math.floor(x / b), Math.floor(y/a), this.id);
          this.paint();
         console.log("xy: "+Math.floor(x / b)+" "+Math.floor(y/a));
+        return {x: Math.floor(x / b),y: Math.floor(y/a)};
     }
     
-    setId(x){
+    setID(x){
         this.id = x;
     }
          

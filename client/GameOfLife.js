@@ -98,8 +98,8 @@ class GameOfLife {
 	willLive(x, y, type) {
 		var neighbors = this.getNumNeighbors(x, y, type);
 		var hostiles = this.getNumHostileNeighbors(x, y, type);
-		if(neighbors + hostiles > 3) return false;
 		if(neighbors == 3) return true;
+		if(neighbors + hostiles > 3) return false;
 		if(neighbors < 2) return false;
 		if(neighbors == 2 && this.board.getPiece(x, y) == type) return true;
 		return false;

@@ -3,9 +3,13 @@ var app = express();
 var server = require('http').Server(app);
 
 app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/client/index.html');
+	res.sendFile(__dirname + '/client/game.html');
+	/*res.sendFile(__dirname + '/client/display.js');
+	res.sendFile(__dirname + '/client/GameBoard.js');
+	res.sendFile(__dirname + '/client/GameOfLife.js');
+	res.sendFile(__dirname + '/client/two.js');*/
 });
-app.use('/client', express.static(__dirname + '/client'));
+app.use('/', express.static(__dirname + '/client'));
 
 server.listen(3000);
 
@@ -46,6 +50,7 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('disconnect', function() {
 		delete SOCKET_LIST[socket.id];
+		console.log('player ' +socket.id+'left');
 		for(var i = socket.id; i < players.length - 1; i++)
 			players[i] = players[i + 1];
 		players.pop(); 
@@ -93,11 +98,15 @@ function playerTurn(pIndex){
 	SOCKET_LIST[pIndex].emit('yourTurn', {msg: 'Your Turn'});
 	
 	}else{
-		console.log('player ' +pIndex+'left');
+		console.log('player ' +pIndex+' does not exist');
 		if(players.length < 2){
 			endGame();
 		}else{
-			endTurn();
+			if(typeof pIndex != 'undefined'){
+				endTurn();
+			} else{
+				endTurn();
+			}
 		}	
 	}
 
@@ -117,7 +126,16 @@ function playerRespond(data){
 }
 
 function endTurn(){
-	currentPlayer = (currentPlayer+1)%players.length; //Next Player
+
+	currentPlayer++;
+
+	if (currentPlayer == 4) {
+
+		io.sockets.emit('cycle', {msg: 'cycle'});
+		currentPlayer = 0;
+	}
+
+	//currentPlayer = (currentPlayer+1)%players.length; //Next Player
 	setTimeout(gameLoop,100);
 }
 

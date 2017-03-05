@@ -7,10 +7,13 @@ app.get('/', function(req, res) {
 });
 app.use('/client', express.static(__dirname + '/client'));
 
-server.listen(3000);
+server.listen(3000, function() {
+	console.log("listening on 3000");
+});
 //var SOCKET_LIST = {};
 
-var io = require('socket.io')(server, {});
+var io = require('socket.io')(server);
+
 io.sockets.on('connection', function(socket) {
 	console.log('socket connection');
 //	socket.id = Math.random();
@@ -20,6 +23,10 @@ io.sockets.on('connection', function(socket) {
 		console.log('socket disconnection');
 //		delete SOCKET_LIST[socket.id];
 	});
+
+	socket.on('serverMsg', function() {
+		console.log("hey");
+	})
 });
 
 setInterval(function() {

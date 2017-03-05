@@ -1,7 +1,7 @@
 {
   "name": "multiplayer_game-of-life",
   "version": "1.0.0",
-  "description": "",
+  "description": "Multiplayer Game Of Life",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,10 +10,15 @@
     "type": "git",
     "url": "git+https://github.com/RichardFTW/MultiplayerGameOfLife.git"
   },
-  "author": "",
+  "author": "ConWars",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RichardFTW/MultiplayerGameOfLife/issues"
   },
-  "homepage": "https://github.com/RichardFTW/MultiplayerGameOfLife#readme"
+  "homepage": "https://github.com/RichardFTW/MultiplayerGameOfLife#readme",
+  "dependencies": {
+    "express": "^4.15.0",
+    "ms": "^0.7.2",
+    "socket.io": "^1.7.3"
+  }
 }

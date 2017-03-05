@@ -1,5 +1,5 @@
 var blockArray;
-var socket = io();
+//var socket = io();
 
 function pushBlock(x, y){
     

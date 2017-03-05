@@ -8,3 +8,5 @@ app.get('/', function(req, res) {
 app.use('/client', express.static(__dirname + '/client'));
 
 server.listen(2000);
+
+var SOCKET_LIST = {};

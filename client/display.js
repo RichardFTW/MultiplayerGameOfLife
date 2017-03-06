@@ -14,6 +14,23 @@ class Display {
         this.delay = 0;
         this.other = 0;
         this.id= 1;
+
+        this.board.setCell(1, 1, 1);
+        this.board.setCell(1, 2, 1);
+        this.board.setCell(2, 1, 1);
+        this.board.setCell(2, 2, 1);
+        this.board.setCell(30, 1, 2);
+        this.board.setCell(29, 1, 2);
+        this.board.setCell(30, 2, 2);
+        this.board.setCell(29, 2, 2);
+        this.board.setCell(1, 30, 3);
+        this.board.setCell(2, 30, 3);
+        this.board.setCell(1, 29, 3);
+        this.board.setCell(2, 29, 3);
+        this.board.setCell(30, 30, 4);
+        this.board.setCell(29,29, 4);
+        this.board.setCell(30, 29, 4);
+        this.board.setCell(29, 30 ,4);
         
 }
         
@@ -90,7 +107,15 @@ class Display {
         console.log("xy: "+Math.floor(x / b)+" "+Math.floor(y/a));
         return {x: Math.floor(x / b),y: Math.floor(y/a)};
     }
-    
+
+    coordsToCell(x,y){
+        var a = this.winHeight / this.board.getHeight();
+         var b = this.winWidth / this.board.getWidth();
+    console.log("xy: "+Math.floor(x / b)+" "+Math.floor(y/a));
+        return {x: Math.floor(x / b),y: Math.floor(y/a)};
+
+    }
+
     setID(x){
         this.id = x;
     }

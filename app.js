@@ -48,6 +48,15 @@ io.sockets.on('connection', function(socket) {
 		console.log('player submitted');
 	});
 
+	socket.on('playerDead',function(data) {
+		delete SOCKET_LIST[data.player];
+		console.log('player ' +data.player+'died');
+		for(var i = data.player; i < players.length - 1; i++)
+			players[i] = players[i + 1];
+		players.pop(); 
+	});
+
+
 	socket.on('disconnect', function() {
 		delete SOCKET_LIST[socket.id];
 		console.log('player ' +socket.id+'left');
@@ -55,6 +64,8 @@ io.sockets.on('connection', function(socket) {
 			players[i] = players[i + 1];
 		players.pop(); 
 	});
+
+
 
 });
 

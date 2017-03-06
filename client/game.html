@@ -16,13 +16,16 @@
 
         var isInGame = false;
         var isTurn= false;
-
+        var playerID;
         function getMouseCoords(event) {
         var x = event.clientX;
         var y = event.clientY;
         if(isInGame && isTurn){
-                var indices = display.coordsConvert(x,y);
+                var indices = display.coordsToCell(x,y);
+                if(isInArea(indices.x, indices.y, playerID+1)){
                 pushBlock(indices.x,indices.y);
+                display.coordsConvert(x,y);
+            }
             }
         }
         var el = document.getElementById("main"),
@@ -30,17 +33,34 @@
         fullscreen: true
         });
         
+        function isInArea(x,y, type){
+
+            var xVar = -5;
+            var yVar = -5;
+        
+            while(yVar < 6) {
+                xVar = -5;
+                while(xVar < 6) {
+                    if(display.board.getCell(x+xVar, y+yVar) == type) return true;
+                    xVar++;
+                }
+                yVar++;
+            }
+            return false;
+        }
+
         two.appendTo(el);
         
         let display = new Display();
         display.construct();
+        display.paint();
         
         
         var socket = io();
         var blockArray = [];
 
         var blockCounter = 0;
-        var playerID;
+
 
         socket.on('playerID', function(data){
             console.log('PLAYER ID: ' + data.id);
@@ -75,13 +95,28 @@
             isInGame = true;
         });
         socket.on('yourTurn',function(data){
-        console.log('Your Turn!');
-        isTurn = true;
+        if(isPlayerAlive(playerID+1)){
+            console.log('Your Turn!');
+            isTurn = true;
+        }else{
+            sendBlocks(playerID);
+            playerDead(playerID);
+        }
+
         //pushBlock(5,5);
         //pushBlock(10,69);
         //sendBlocks('blue');
         });
         
+        function isPlayerAlive(player){
+
+           for(var i = 0; i<display.board.getWidth(); i++){
+                for(var j = 0; j<display.board.getWidth(); j++){
+                    if(display.board.getCell(i,j) == player) return true;
+                }
+            } 
+            return false;
+        }
 
         socket.on('playerTurn', function(data) {
 
@@ -97,6 +132,12 @@
             display.cycleGen();
 
         });
+
+        function playerDead(player){
+
+            socket.emit('playerDead', {player: player});
+
+        }
 
         </script>
         
